@@ -1,0 +1,107 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile in Kharcha Varcha",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "upiId": { "type": "string" },
+        "avatarColorHex": { "type": "string" },
+        "defaultCurrency": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "displayName", "email", "createdAt", "updatedAt"]
+    },
+    "Group": {
+      "title": "Group",
+      "description": "Expense sharing group",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "memberIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "createdBy", "memberIds", "createdAt", "updatedAt"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Shared expense record within a group",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "groupId": { "type": "string" },
+        "titleNote": { "type": "string" },
+        "category": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "paidByUserId": { "type": "string" },
+        "splitType": { "type": "string" },
+        "participantIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "memberIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "customSharesCsv": { "type": "string" },
+        "receiptUri": { "type": "string" },
+        "expenseDate": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "groupId", "titleNote", "totalAmount", "paidByUserId", "participantIds", "memberIds", "createdAt", "updatedAt"]
+    },
+    "Settlement": {
+      "title": "Settlement",
+      "description": "Debt settlement payment record between two members",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "groupId": { "type": "string" },
+        "fromUserId": { "type": "string" },
+        "toUserId": { "type": "string" },
+        "amount": { "type": "number" },
+        "note": { "type": "string" },
+        "settledAt": { "type": "number" },
+        "memberIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "groupId", "fromUserId", "toUserId", "amount", "memberIds", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles with their details"
+    },
+    "/groups/{groupId}": {
+      "schema": { "$ref": "#/entities/Group" },
+      "description": "Stores groups and member UIDs"
+    },
+    "/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Expense" },
+      "description": "Stores shared expenses tagged with groupId and memberIds"
+    },
+    "/settlements/{settlementId}": {
+      "schema": { "$ref": "#/entities/Settlement" },
+      "description": "Stores recorded debt settlements tagged with groupId and memberIds"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Remix Kharcha Varcha",
+  "description": "Group expense tracker and bill splitting platform to track shared costs and know who owes who instantly.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
